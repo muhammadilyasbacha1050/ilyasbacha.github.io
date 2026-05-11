@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Muhammad Ilyas Bacha — BIM Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#080808;
+  --bg2:#0e0e0e;
+  --bg3:#141414;
+  --border:#1e1e1e;
+  --border2:#2a2a2a;
+  --text:#EAE6DF;
+  --muted:#555;
+  --muted2:#333;
+  --gold:#B8965A;
+  --gold2:#D4AF75;
+  --gold3:#F0CC90;
+  --white:#fff;
+}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Outfit',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* LOADER */
+#loader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:2rem;
+  transition:opacity 0.8s ease, visibility 0.8s ease;
+}
+#loader.hide{opacity:0;visibility:hidden;}
+.loader-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,5vw,52px);
+  font-weight:300;
+  color:var(--white);
+  letter-spacing:0.08em;
+  opacity:0;
+  animation:loaderFade 0.8s ease 0.3s forwards;
+}
+.loader-bar-wrap{
+  width:200px;height:1px;
+  background:var(--border2);
+  position:relative;overflow:hidden;
+}
+.loader-bar{
+  position:absolute;top:0;left:0;height:100%;
+  background:linear-gradient(90deg,var(--gold),var(--gold3));
+  width:0;
+  animation:loadBar 1.8s ease 0.5s forwards;
+}
+@keyframes loaderFade{to{opacity:1;}}
+@keyframes loadBar{to{width:100%;}}
+
+/* CURSOR */
+.cursor{
+  width:6px;height:6px;
+  background:var(--gold);
+  border-radius:50%;
+  position:fixed;top:0;left:0;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:width 0.2s,height 0.2s,background 0.2s;
+}
+.cursor-trail{
+  width:32px;height:32px;
+  border:1px solid rgba(184,150,90,0.35);
+  border-radius:50%;
+  position:fixed;top:0;left:0;
+  pointer-events:none;z-index:9997;
+  transform:translate(-50%,-50%);
+  transition:all 0.08s linear;
+}
+body:has(a:hover) .cursor,
+body:has(button:hover) .cursor{width:14px;height:14px;background:var(--gold3);}
+body:has(a:hover) .cursor-trail,
+body:has(button:hover) .cursor-trail{width:48px;height:48px;border-color:rgba(212,175,117,0.5);}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 4rem;height:68px;
+  transition:background 0.4s,border-color 0.4s;
+}
+nav.scrolled{
+  background:rgba(8,8,8,0.92);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:18px;font-weight:400;
+  letter-spacing:0.06em;
+  color:var(--white);
+}
+.nav-logo span{color:var(--gold);}
+.nav-links{display:flex;gap:3rem;list-style:none;}
+.nav-links a{
+  font-size:11px;font-weight:500;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  transition:color 0.2s;
+  position:relative;
+}
+.nav-links a::after{
+  content:'';position:absolute;bottom:-4px;left:0;right:0;
+  height:1px;background:var(--gold);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.3s ease;
+}
+.nav-links a:hover{color:var(--text);}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-hire{
+  font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;
+  padding:10px 24px;
+  border:1px solid var(--gold);
+  color:var(--gold);text-decoration:none;
+  transition:all 0.3s;
+  position:relative;overflow:hidden;
+}
+.nav-hire::before{
+  content:'';position:absolute;inset:0;
+  background:var(--gold);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.3s ease;z-index:-1;
+}
+.nav-hire:hover{color:var(--bg);}
+.nav-hire:hover::before{transform:scaleX(1);}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:120px 4rem 6rem;
+  position:relative;overflow:hidden;
+}
+/* Animated BIM grid background */
+.hero-grid{
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(184,150,90,0.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(184,150,90,0.04) 1px,transparent 1px);
+  background-size:60px 60px;
+  animation:gridMove 20s linear infinite;
+}
+@keyframes gridMove{from{background-position:0 0;}to{background-position:60px 60px;}}
+.hero-glow{
+  position:absolute;top:-20%;right:-10%;
+  width:600px;height:600px;
+  background:radial-gradient(circle,rgba(184,150,90,0.06) 0%,transparent 70%);
+  pointer-events:none;
+  animation:glowPulse 4s ease-in-out infinite;
+}
+@keyframes glowPulse{0%,100%{opacity:0.5;transform:scale(1);}50%{opacity:1;transform:scale(1.1);}}
+
+.hero-eyebrow{
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:2.5rem;
+  opacity:0;animation:slideUp 0.8s ease 2s forwards;
+}
+.hero-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:var(--gold);
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(184,150,90,0.4);}50%{opacity:0.7;box-shadow:0 0 0 8px rgba(184,150,90,0);}}
+.hero-eyebrow-text{
+  font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--gold);
+}
+
+.hero-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(64px,10vw,140px);
+  font-weight:300;
+  line-height:0.92;
+  letter-spacing:-0.02em;
+  color:var(--white);
+  margin-bottom:3rem;
+}
+.hero-title .line{
+  display:block;overflow:hidden;
+}
+.hero-title .line-inner{
+  display:block;
+  transform:translateY(100%);
+  animation:lineReveal 1s cubic-bezier(0.16,1,0.3,1) forwards;
+}
+.hero-title .line:nth-child(1) .line-inner{animation-delay:2.2s;}
+.hero-title .line:nth-child(2) .line-inner{animation-delay:2.4s;}
+.hero-title .line:nth-child(3) .line-inner{animation-delay:2.6s;}
+@keyframes lineReveal{to{transform:translateY(0);}}
+.hero-title em{
+  font-style:italic;
+  color:transparent;
+  -webkit-text-stroke:1px var(--gold);
+}
+
+.hero-bottom{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  gap:3rem;
+  opacity:0;animation:slideUp 0.8s ease 2.9s forwards;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+.hero-desc{
+  max-width:380px;font-size:15px;
+  color:var(--muted);line-height:1.85;
+}
+.hero-desc strong{color:var(--text);font-weight:400;}
+.hero-cta{
+  display:flex;align-items:center;gap:1.5rem;flex-shrink:0;
+}
+.btn-primary{
+  font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;
+  padding:14px 32px;
+  background:var(--gold);color:var(--bg);
+  text-decoration:none;
+  transition:all 0.3s;
+  position:relative;overflow:hidden;
+}
+.btn-primary:hover{background:var(--gold3);}
+.btn-secondary{
+  font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;
+  display:flex;align-items:center;gap:8px;
+  transition:color 0.2s;
+}
+.btn-secondary:hover{color:var(--text);}
+.btn-arrow{
+  width:32px;height:32px;border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;transition:all 0.2s;
+}
+.btn-secondary:hover .btn-arrow{border-color:var(--gold);color:var(--gold);}
+
+/* TICKER */
+.ticker{
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  overflow:hidden;padding:14px 0;
+  background:var(--bg2);
+}
+.ticker-inner{
+  display:flex;gap:0;
+  animation:ticker 30s linear infinite;
+  width:max-content;
+}
+@keyframes ticker{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+.ticker-item{
+  display:flex;align-items:center;gap:12px;
+  padding:0 2.5rem;
+  font-size:11px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--muted);white-space:nowrap;
+}
+.ticker-sep{width:3px;height:3px;background:var(--gold);border-radius:50%;}
+
+/* SECTIONS */
+.wrap{max-width:1280px;margin:0 auto;padding:0 4rem;}
+section{padding:8rem 0;border-bottom:1px solid var(--border);}
+
+.sec-header{
+  display:flex;align-items:baseline;
+  justify-content:space-between;
+  margin-bottom:5rem;
+  padding-bottom:2rem;
+  border-bottom:1px solid var(--border);
+}
+.sec-num{
+  font-size:11px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--gold);
+}
+.sec-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(36px,5vw,64px);
+  font-weight:300;line-height:1.05;
+  color:var(--white);
+}
+.sec-title em{font-style:italic;color:var(--gold);}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:6rem;align-items:start;}
+.about-text p{
+  font-size:17px;color:rgba(234,230,223,0.65);
+  line-height:1.9;margin-bottom:1.5rem;
+  font-weight:300;
+}
+.about-text p strong{color:var(--text);font-weight:400;}
+.about-facts{margin-top:2.5rem;display:flex;flex-direction:column;gap:0;}
+.fact-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:1rem 0;border-bottom:1px solid var(--border);
+  gap:1rem;
+}
+.fact-row:first-child{border-top:1px solid var(--border);}
+.fact-k{
+  font-size:10px;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--muted);
+}
+.fact-v{font-size:14px;color:var(--text);text-align:right;}
+.fact-v a{color:var(--gold);text-decoration:none;}
+.about-stats{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);}
+.stat-box{
+  background:var(--bg2);
+  padding:2rem 1.75rem;
+  transition:background 0.2s;
+}
+.stat-box:hover{background:var(--bg3);}
+.stat-n{
+  font-family:'Cormorant Garamond',serif;
+  font-size:52px;font-weight:300;
+  color:var(--white);line-height:1;
+  margin-bottom:0.5rem;
+}
+.stat-n span{color:var(--gold);font-size:28px;}
+.stat-l{
+  font-size:11px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* SKILLS */
+.skills-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+.skill-box{
+  background:var(--bg2);padding:2.5rem 2rem;
+  position:relative;overflow:hidden;
+  transition:background 0.3s;
+}
+.skill-box::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),transparent);
+  transform:scaleX(0);transform-origin:left;
+  transition:transform 0.4s ease;
+}
+.skill-box:hover{background:var(--bg3);}
+.skill-box:hover::before{transform:scaleX(1);}
+.skill-n{
+  font-size:10px;font-weight:500;letter-spacing:0.16em;text-transform:uppercase;
+  color:var(--muted2);margin-bottom:1rem;
+}
+.skill-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:22px;font-weight:400;
+  color:var(--white);margin-bottom:1.25rem;
+}
+.chips{display:flex;flex-wrap:wrap;gap:6px;}
+.chip{
+  font-size:10px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  padding:5px 10px;border:1px solid var(--border2);
+  color:var(--muted);transition:all 0.2s;
+}
+.skill-box:hover .chip{border-color:rgba(184,150,90,0.25);color:var(--text);}
+
+/* PROJECTS */
+.projects-list{display:flex;flex-direction:column;gap:0;}
+.proj-row{
+  display:grid;grid-template-columns:80px 1fr 1fr auto;
+  align-items:center;gap:3rem;
+  padding:2.5rem 0;
+  border-bottom:1px solid var(--border);
+  cursor:default;
+  transition:padding-left 0.3s;
+  position:relative;
+}
+.proj-row:first-child{border-top:1px solid var(--border);}
+.proj-row:hover{padding-left:1rem;}
+.proj-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:36px;font-weight:300;
+  color:var(--border2);
+  transition:color 0.3s;
+}
+.proj-row:hover .proj-num{color:var(--gold);}
+.proj-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:28px;font-weight:400;
+  color:var(--white);
+}
+.proj-info{font-size:13px;color:var(--muted);line-height:1.65;}
+.proj-tag{
+  font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;
+  padding:6px 14px;border:1px solid var(--border2);color:var(--muted);
+  white-space:nowrap;transition:all 0.2s;
+}
+.proj-row:hover .proj-tag{border-color:var(--gold);color:var(--gold);}
+
+/* CERTS */
+.certs-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border);}
+.cert-box{
+  background:var(--bg2);padding:2rem 2.5rem;
+  display:flex;align-items:flex-start;gap:1.5rem;
+  transition:background 0.2s;
+  position:relative;overflow:hidden;
+}
+.cert-box::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  transform:scaleX(0);transition:transform 0.4s ease;
+}
+.cert-box:hover{background:var(--bg3);}
+.cert-box:hover::after{transform:scaleX(1);}
+.cert-icon-w{
+  width:48px;height:48px;
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+  transition:border-color 0.2s;
+}
+.cert-box:hover .cert-icon-w{border-color:rgba(184,150,90,0.3);}
+.cert-nm{
+  font-family:'Cormorant Garamond',serif;
+  font-size:20px;font-weight:400;
+  color:var(--white);margin-bottom:3px;
+}
+.cert-iss{font-size:13px;color:var(--muted);}
+.cert-yr{
+  font-size:10px;font-weight:500;letter-spacing:0.12em;
+  text-transform:uppercase;color:var(--gold);margin-top:8px;
+}
+
+/* CONTACT */
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:start;}
+.contact-left{}
+.contact-left h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(32px,4vw,52px);font-weight:300;
+  color:var(--white);line-height:1.1;margin-bottom:1.5rem;
+}
+.contact-left h3 em{font-style:italic;color:var(--gold);}
+.contact-left p{font-size:15px;color:var(--muted);line-height:1.8;margin-bottom:2.5rem;}
+.contact-items{display:flex;flex-direction:column;}
+.c-item{
+  display:flex;align-items:center;gap:1.25rem;
+  padding:1.25rem 0;border-bottom:1px solid var(--border);
+  text-decoration:none;
+  transition:padding-left 0.25s;
+}
+.c-item:first-child{border-top:1px solid var(--border);}
+.c-item:hover{padding-left:0.75rem;}
+.c-icon{
+  width:40px;height:40px;
+  border:1px solid var(--border2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:16px;flex-shrink:0;transition:border-color 0.2s;
+}
+.c-item:hover .c-icon{border-color:rgba(184,150,90,0.4);}
+.c-lbl{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+.c-val{font-size:14px;color:var(--text);}
+.c-arr{margin-left:auto;color:var(--muted2);transition:color 0.2s;font-size:18px;}
+.c-item:hover .c-arr{color:var(--gold);}
+
+/* FOOTER */
+footer{
+  padding:2rem 4rem;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--muted2);
+}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(40px);transition:opacity 0.9s ease,transform 0.9s ease;}
+.rv.on{opacity:1;transform:translateY(0);}
+.rv-d1{transition-delay:0.1s;}
+.rv-d2{transition-delay:0.2s;}
+.rv-d3{transition-delay:0.3s;}
+.rv-d4{transition-delay:0.4s;}
+
+/* MOBILE */
+@media(max-width:900px){
+  nav{padding:0 1.5rem;}
+  .nav-links{display:none;}
+  .hero{padding:100px 1.5rem 4rem;}
+  .hero-title{font-size:clamp(52px,14vw,90px);}
+  .hero-bottom{flex-direction:column;align-items:flex-start;}
+  .wrap{padding:0 1.5rem;}
+  .about-grid,.contact-layout{grid-template-columns:1fr;gap:3rem;}
+  .skills-wrap{grid-template-columns:1fr 1fr;}
+  .projects-list .proj-row{grid-template-columns:1fr;gap:0.5rem;}
+  .proj-num{font-size:20px;}
+  .certs-wrap{grid-template-columns:1fr;}
+  footer{flex-direction:column;gap:0.75rem;padding:1.5rem;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="loader-name">Muhammad Ilyas Bacha</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor" id="cur"></div>
+<div class="cursor-trail" id="trail"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-logo">M. Ilyas <span>Bacha</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#certificates">Certificates</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-hire">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-eyebrow">
+    <div class="hero-dot"></div>
+    <span class="hero-eyebrow-text">BIM Engineer &amp; Civil Engineer — Peshawar, Pakistan</span>
+  </div>
+
+  <h1 class="hero-title">
+    <span class="line"><span class="line-inner">Building</span></span>
+    <span class="line"><span class="line-inner"><em>Digital</em></span></span>
+    <span class="line"><span class="line-inner">Infrastructure</span></span>
+  </h1>
+
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      <strong>Muhammad Ilyas Bacha</strong> — delivering precision BIM models and civil engineering solutions. Specialized in 3D coordination, clash detection, ISO 19650 compliance, and digital project delivery.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn-primary">View Projects</a>
+      <a href="#contact" class="btn-secondary">
+        Get in touch
+        <span class="btn-arrow">↗</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">Autodesk Revit<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Navisworks Manage<span class="ticker-sep"></span></span>
+    <span class="ticker-item">AutoCAD Civil 3D<span class="ticker-sep"></span></span>
+    <span class="ticker-item">BIM 360<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Dynamo<span class="ticker-sep"></span></span>
+    <span class="ticker-item">ISO 19650<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Clash Detection<span class="ticker-sep"></span></span>
+    <span class="ticker-item">4D Scheduling<span class="ticker-sep"></span></span>
+    <span class="ticker-item">LOD 100–500<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Structural BIM<span class="ticker-sep"></span></span>
+    <span class="ticker-item">MicroStation<span class="ticker-sep"></span></span>
+    <span class="ticker-item">PAS 1192<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Autodesk Revit<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Navisworks Manage<span class="ticker-sep"></span></span>
+    <span class="ticker-item">AutoCAD Civil 3D<span class="ticker-sep"></span></span>
+    <span class="ticker-item">BIM 360<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Dynamo<span class="ticker-sep"></span></span>
+    <span class="ticker-item">ISO 19650<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Clash Detection<span class="ticker-sep"></span></span>
+    <span class="ticker-item">4D Scheduling<span class="ticker-sep"></span></span>
+    <span class="ticker-item">LOD 100–500<span class="ticker-sep"></span></span>
+    <span class="ticker-item">Structural BIM<span class="ticker-sep"></span></span>
+    <span class="ticker-item">MicroStation<span class="ticker-sep"></span></span>
+    <span class="ticker-item">PAS 1192<span class="ticker-sep"></span></span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+<div class="wrap">
+  <div class="sec-header rv">
+    <span class="sec-num">(01)</span>
+    <h2 class="sec-title">About <em>Me</em></h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text rv rv-d1">
+      <p>I'm <strong>Muhammad Ilyas Bacha</strong>, a BIM Engineer and Civil Engineer based in Peshawar, Pakistan. I bridge the gap between digital design and physical construction through precise, coordinated BIM workflows.</p>
+      <p>With expertise in <strong>Revit, Navisworks, and AutoCAD Civil 3D</strong>, I lead multidisciplinary coordination, detect and resolve clashes before they reach the site, and deliver ISO 19650-compliant models for infrastructure and commercial projects.</p>
+      <p>My approach combines engineering precision with digital intelligence — transforming complex construction challenges into clean, buildable models that teams can trust.</p>
+      <div class="about-facts">
+        <div class="fact-row"><span class="fact-k">Location</span><span class="fact-v">Peshawar, KPK, Pakistan</span></div>
+        <div class="fact-row"><span class="fact-k">Education</span><span class="fact-v">B.Sc. Civil Engineering</span></div>
+        <div class="fact-row"><span class="fact-k">Languages</span><span class="fact-v">English · Urdu · Pashto</span></div>
+        <div class="fact-row"><span class="fact-k">LinkedIn</span><span class="fact-v"><a href="https://www.linkedin.com/in/muhammad-ilyas-bacha-679965316/" target="_blank">muhammad-ilyas-bacha</a></span></div>
+        <div class="fact-row"><span class="fact-k">Status</span><span class="fact-v" style="color:#5fa85f;">● Available for work</span></div>
+      </div>
+    </div>
+    <div class="rv rv-d2">
+      <div class="about-stats">
+        <div class="stat-box">
+          <div class="stat-n">5<span>+</span></div>
+          <div class="stat-l">Years Experience</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-n">20<span>+</span></div>
+          <div class="stat-l">Projects Delivered</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-n">LOD<span style="font-size:22px;"> 400</span></div>
+          <div class="stat-l">BIM Standard</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-n">ISO<span style="font-size:16px;"> 19650</span></div>
+          <div class="stat-l">Certified Process</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+<div class="wrap">
+  <div class="sec-header rv">
+    <span class="sec-num">(02)</span>
+    <h2 class="sec-title">Skills &amp; <em>Tools</em></h2>
+  </div>
+  <div class="skills-wrap">
+    <div class="skill-box rv rv-d1">
+      <div class="skill-n">(2.1)</div>
+      <div class="skill-title">BIM Software</div>
+      <div class="chips">
+        <span class="chip">Revit</span>
+        <span class="chip">Navisworks</span>
+        <span class="chip">BIM 360</span>
+        <span class="chip">Dynamo</span>
+        <span class="chip">Tekla</span>
+      </div>
+    </div>
+    <div class="skill-box rv rv-d2">
+      <div class="skill-n">(2.2)</div>
+      <div class="skill-title">CAD & Design</div>
+      <div class="chips">
+        <span class="chip">AutoCAD</span>
+        <span class="chip">Civil 3D</span>
+        <span class="chip">MicroStation</span>
+        <span class="chip">SketchUp</span>
+      </div>
+    </div>
+    <div class="skill-box rv rv-d3">
+      <div class="skill-n">(2.3)</div>
+      <div class="skill-title">Engineering</div>
+      <div class="chips">
+        <span class="chip">Clash Detection</span>
+        <span class="chip">4D Scheduling</span>
+        <span class="chip">Structural Analysis</span>
+        <span class="chip">QTO</span>
+      </div>
+    </div>
+    <div class="skill-box rv rv-d4">
+      <div class="skill-n">(2.4)</div>
+      <div class="skill-title">Standards</div>
+      <div class="chips">
+        <span class="chip">ISO 19650</span>
+        <span class="chip">PAS 1192</span>
+        <span class="chip">LOD 100–500</span>
+        <span class="chip">CDE</span>
+        <span class="chip">EIR / BEP</span>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+<div class="wrap">
+  <div class="sec-header rv">
+    <span class="sec-num">(03)</span>
+    <h2 class="sec-title">Featured <em>Projects</em></h2>
+  </div>
+  <div class="projects-list">
+    <div class="proj-row rv rv-d1">
+      <div class="proj-num">01</div>
+      <div>
+        <div class="proj-name">Project Name 1</div>
+      </div>
+      <div class="proj-info">Full BIM coordination for a multi-story commercial building. Clash detection across MEP, structural and architectural disciplines. Replace with your real project details.</div>
+      <div class="proj-tag">Revit · LOD 400 · 2024</div>
+    </div>
+    <div class="proj-row rv rv-d2">
+      <div class="proj-num">02</div>
+      <div>
+        <div class="proj-name">Project Name 2</div>
+      </div>
+      <div class="proj-info">Highway alignment and grading model with drainage coordination. Shared CDE environment with geotechnical and utilities teams. Replace with your real project details.</div>
+      <div class="proj-tag">Civil 3D · Infrastructure · 2023</div>
+    </div>
+    <div class="proj-row rv rv-d3">
+      <div class="proj-num">03</div>
+      <div>
+        <div class="proj-name">Project Name 3</div>
+      </div>
+      <div class="proj-info">Parametric bridge model developed with Dynamo automation. Reduced modeling time significantly through scripted component placement. Replace with your real project details.</div>
+      <div class="proj-tag">Dynamo · Bridge · 2023</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CERTIFICATES -->
+<section id="certificates">
+<div class="wrap">
+  <div class="sec-header rv">
+    <span class="sec-num">(04)</span>
+    <h2 class="sec-title">Certificates &amp; <em>Credentials</em></h2>
+  </div>
+  <div class="certs-wrap">
+    <div class="cert-box rv rv-d1">
+      <div class="cert-icon-w">🏅</div>
+      <div>
+        <div class="cert-nm">Certificate Name 1</div>
+        <div class="cert-iss">Issuer — e.g. Autodesk Certified Professional</div>
+        <div class="cert-yr">2024</div>
+      </div>
+    </div>
+    <div class="cert-box rv rv-d2">
+      <div class="cert-icon-w">🎖️</div>
+      <div>
+        <div class="cert-nm">Certificate Name 2</div>
+        <div class="cert-iss">Issuer — e.g. buildingSMART International</div>
+        <div class="cert-yr">2023</div>
+      </div>
+    </div>
+    <div class="cert-box rv rv-d3">
+      <div class="cert-icon-w">📜</div>
+      <div>
+        <div class="cert-nm">Certificate Name 3</div>
+        <div class="cert-iss">Issuer — e.g. BRE Academy · ISO 19650</div>
+        <div class="cert-yr">2022</div>
+      </div>
+    </div>
+    <div class="cert-box rv rv-d4">
+      <div class="cert-icon-w">🎓</div>
+      <div>
+        <div class="cert-nm">Certificate Name 4</div>
+        <div class="cert-iss">Issuer — e.g. Coursera / Udemy</div>
+        <div class="cert-yr">2022</div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<div class="wrap">
+  <div class="sec-header rv">
+    <span class="sec-num">(05)</span>
+    <h2 class="sec-title">Let's <em>Connect</em></h2>
+  </div>
+  <div class="contact-layout">
+    <div class="contact-left rv rv-d1">
+      <h3>Have a project that needs <em>precision</em>?</h3>
+      <p>Open to freelance coordination work, full-time BIM roles, and consulting on digital delivery projects across Pakistan and internationally.</p>
+      <a href="mailto:your@email.com" class="btn-primary" style="display:inline-block;">Send an Email ↗</a>
+    </div>
+    <div class="contact-items rv rv-d2">
+      <a href="mailto:your@email.com" class="c-item">
+        <div class="c-icon">✉</div>
+        <div><div class="c-lbl">Email</div><div class="c-val">your@email.com</div></div>
+        <span class="c-arr">↗</span>
+      </a>
+      <a href="tel:+92XXXXXXXXXX" class="c-item">
+        <div class="c-icon">✆</div>
+        <div><div class="c-lbl">Phone</div><div class="c-val">+92 XXX XXXXXXX</div></div>
+        <span class="c-arr">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/in/muhammad-ilyas-bacha-679965316/" target="_blank" class="c-item">
+        <div class="c-icon">in</div>
+        <div><div class="c-lbl">LinkedIn</div><div class="c-val">muhammad-ilyas-bacha</div></div>
+        <span class="c-arr">↗</span>
+      </a>
+      <div class="c-item" style="cursor:default;">
+        <div class="c-icon">⌖</div>
+        <div><div class="c-lbl">Location</div><div class="c-val">Peshawar, Khyber Pakhtunkhwa, Pakistan</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<footer>
+  <span>© 2025 Muhammad Ilyas Bacha</span>
+  <span>BIM Engineer · Civil Engineer</span>
+  <span>Peshawar, Pakistan</span>
+</footer>
+
+<script>
+// LOADER
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('hide');
+  },2200);
+});
+
+// CURSOR
+const cur=document.getElementById('cur');
+const trail=document.getElementById('trail');
+let mx=0,my=0,tx=0,ty=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function anim(){
+  tx+=(mx-tx)*0.1;ty+=(my-ty)*0.1;
+  trail.style.left=tx+'px';trail.style.top=ty+'px';
+  requestAnimationFrame(anim);
+})();
+
+// NAV SCROLL
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',window.scrollY>60);
+});
+
+// REVEAL
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});
+},{threshold:0.12});
+document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+
+// COUNTER ANIMATION
+function animCount(el,target,suffix=''){
+  let start=0;
+  const dur=1800;
+  const step=timestamp=>{
+    if(!start)start=timestamp;
+    const prog=Math.min((timestamp-start)/dur,1);
+    const val=Math.floor(prog*target);
+    el.textContent=val+(suffix||'');
+    if(prog<1)requestAnimationFrame(step);
+    else el.textContent=target+(suffix||'');
+  };
+  requestAnimationFrame(step);
+}
+</script>
+</body>
+</html>
